@@ -1,1 +1,1 @@
-steem-piston==0.4.1
+piston-cli==0.4.0
