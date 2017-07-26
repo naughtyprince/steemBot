@@ -1,1 +1,1 @@
-piston-cli==0.4.0
+piston-lib==0.5.4
