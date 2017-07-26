@@ -1,3 +1,21 @@
+from piston import Steem
+import os
+import json
+
+steemPostingKey = os.environ.get('steemPostingKey')
+steemAccountName = os.environ.get('steemAccountName')
+
+steem = Steem(wif=steemPostingKey)
+authors = ["krish3732","pikachuu"]
+for post in steem.stream_comments():
+   if  post["author"] in authors:
+       post.upvote(voter="steemAccountName")
+
+
+
+
+
+'''
 """
 This bot randomly upvotes posts
 It upvotes a random post from the most recent [numPostsToConsider]
@@ -47,7 +65,7 @@ for p in steem.stream_comments():
             print("Failed to comment on post.")
 
 
-'''
+
 # [percentChanceToPost] chance to proceed past this block
 i = randint(1, 100)
 if i > percentChanceToPost:
