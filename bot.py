@@ -16,6 +16,8 @@ voteWeight = int(os.environ.get('voteWeight'))
 steemPostingKey = os.environ.get('steemPostingKey')
 steemAccountName = os.environ.get('steemAccountName')
 
+print "steem Posting Key " + steemPostingKey
+
 # [percentChanceToPost] chance to proceed past this block
 i = randint(1, 100)
 if i > percentChanceToPost:
