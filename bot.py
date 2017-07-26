@@ -8,6 +8,13 @@ import os
 import subprocess
 from piston.steem import Steem
 from random import randint
+# extra
+import time
+from piston.post import Post
+import os
+import json
+
+
 
 # grab config vars
 percentChanceToPost = int(os.environ.get('percentChanceToPost'))
@@ -18,6 +25,29 @@ steemAccountName = os.environ.get('steemAccountName')
 
 print ("steem Posting Key " + steemPostingKey)
 
+
+steem = Steem(wif=steemPostingKey)
+tags = ["postoftheday", "introduceyourself", "introducemyself"]
+past_authors = []
+
+for p in steem.stream_comments():
+    for x in tags:
+        try:
+            if x in p["tags"] and p.is_opening_post() and p["author"] not in past_authors:
+                print(p.get_comments())
+                print(p["author"])
+                post = p.reply(body = "I am Groot!", author = steemAccountName)
+                p.upvote(weight=+0.01, voter = steemAccountName)
+                print(post)
+                past_authors.append(post['operations'][0][1]['parent_author'])
+                time.sleep(25)
+                print(past_authors)
+
+        except:
+            print("Failed to comment on post.")
+
+
+'''
 # [percentChanceToPost] chance to proceed past this block
 i = randint(1, 100)
 if i > percentChanceToPost:
@@ -41,3 +71,4 @@ except:
     print('[{:%Y-%m-%d, %H:%M:%S}] Vote failed: {}\n'.format(datetime.datetime.now(), sys.exc_info()[0]))
 else:
     print('[{:%Y-%m-%d, %H:%M:%S}] Vote succeeded: {}\n'.format(datetime.datetime.now(), posts[postId]["identifier"]))   
+'''
